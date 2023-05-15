@@ -7,11 +7,19 @@ const shopping_cart_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 window.addEventListener("load", () => openShoppingcartTab());
 
-const openShoppingcartTab = () => {
+var cartData = [];
+
+const openShoppingcartTab = async () => {
+  const response = await fetch("./assets/cart.json");
+  const json = await response.json();
+  // const jsonCopy = [...json]; // Create a copy of the json array
+
+  cartData = json;
+
   tab_body.innerHTML = "";
   transaction_tab.classList.remove("active_tab");
   shopping_tab.classList.add("active_tab");
-  tab_body.appendChild(createShoppingCart());
+  tab_body.appendChild(createShoppingCart(cartData));
 };
 
 const openTransactionTab = () => {
@@ -21,39 +29,43 @@ const openTransactionTab = () => {
   createTable();
 };
 
-const makeTicketCard = () => {
-  const card = document.createElement("div");
-  card.className = "ticket_card";
+const makeTicketCard = (details) => {
+  const card = document.createElement("tr");
   card.innerHTML = `
-      <h3 class="ticket_name ticket_text">
-        All Access Ticket for Startups (less than $20M ARR)
-      </h3>
-      <h3 class="ticket_price ticket_text">
-        120 <span class="ticket_currency ticket_text">eur</span>
-      </h3>
-  
-      <div class="counter_button">
-        <i class="fa-solid fa-minus btn"></i>
-        <h2 class="counter ticket_text ticket_currency">2</h2>
-        <i class="fa-solid fa-plus btn"></i>
-      </div>
+  <td>
+    <h3 class="ticket_name ticket_text">
+      ${details.name}
+    </h3>
+  </td>
+  <td>
+    <h3 class="ticket_price ticket_text">
+      ${details.price} <span class="ticket_currency ticket_text">eur</span>
+    </h3>
+  </td>
+  <td>
+    <div class="counter_button">
+      <i onclick="subCounter('${details.id}')" class="fa-solid fa-minus btn"></i>
+      <h2 class="counter ticket_text ticket_currency" id="count_${details.id}">${details.count}</h2>
+      <i onclick="addCounter('${details.id}')" class="fa-solid fa-plus btn"></i>
+    </div>
+  </td>
     `;
   return card;
 };
 
-const makeSummaryCard = () => {
+const makeSummaryCard = (details) => {
   const ticketCard = document.createElement("div");
   ticketCard.classList.add("summery_card");
 
   ticketCard.innerHTML = `
-  <div class="summery_card_name">
-    <p class="summery_card_count">2x</p>
+  <div  class="summery_card_name">
+    <p id="summary_count_${details.id}" class="summery_card_count">${details.count}x</p>
     <p class="summery_card_data">
-      All Access Ticket for Startups (less than $20M ARR)
+      ${details.name}
     </p>
   </div>
-  <h3 class="ticket_price ticket_text summery_text">
-    120 <span class="ticket_currency ticket_text">eur</span>
+  <h3 id="summary_price_${details.id}" class="ticket_price ticket_text summery_text">
+    ${details.price} <span id="summary_currn_${details.id}" class="ticket_currency ticket_text">eur</span>
   </h3>
     `;
 
@@ -63,16 +75,70 @@ const makeSummaryCard = () => {
 const createTableColoumn = () => {
   const tableColoumn = document.createElement("tr");
   tableColoumn.innerHTML = `
-  <td>2023-05-01</td>
-  <td>2</td>
-  <td>All Access Ticket for Startups (less than $20M ARR)</td>
-  <td>$250</td>
-  <td>0</td>
-  <td>20</td>
-  <td>$250</td>
+    <td>2023-05-01</td>
+    <td>2</td>
+    <td>All Access Ticket for Startups (less than $20M ARR)</td>
+    <td>$250</td>
+    <td>0</td>
+    <td>20</td>
+    <td>$250</td>
   `;
   return tableColoumn;
 };
+
+function subCounter(id) {
+  const details = cartData.find((obj) => obj.id === id);
+  if (details.count > 0) {
+    details.count--;
+  }
+  const countElement = document.getElementById(`count_${id}`);
+  if (countElement) {
+    countElement.textContent = details.count;
+  }
+
+  const summaryCount = document.getElementById(`summary_count_${details.id}`);
+  const summaryPrice = document.getElementById(`summary_price_${details.id}`);
+  const totalAmt = document.getElementById("total_amt");
+
+  summaryCount.textContent = `${details.count} x`;
+
+  summaryPrice.innerHTML = `
+  ${details.count * details.price}
+    <span id="summary_currn_${
+      details.id
+    }" class="ticket_currency ticket_text">eur</span>
+  `;
+
+  totalAmt.innerHTML = `
+  ${getTotal()} <span class="ticket_currency ticket_text">eur</span>
+`;
+}
+
+function addCounter(id) {
+  const details = cartData.find((obj) => obj.id === id);
+  details.count++;
+  const countElement = document.getElementById(`count_${id}`);
+  if (countElement) {
+    countElement.innerText = details.count;
+  }
+
+  const summaryCount = document.getElementById(`summary_count_${details.id}`);
+  const summaryPrice = document.getElementById(`summary_price_${details.id}`);
+  const totalAmt = document.getElementById("total_amt");
+
+  summaryCount.textContent = `${details.count} x`;
+
+  summaryPrice.innerHTML = `
+  ${details.count * details.price}
+    <span id="summary_currn_${
+      details.id
+    }" class="ticket_currency ticket_text">eur</span>
+  `;
+
+  totalAmt.innerHTML = `
+    ${getTotal()} <span class="ticket_currency ticket_text">eur</span>
+  `;
+}
 
 function createTable() {
   const table = document.createElement("table");
@@ -128,7 +194,7 @@ function createTable() {
   tab_body.appendChild(table);
 }
 
-function createShoppingCart() {
+function createShoppingCart(data) {
   const shoppingCartData = document.createElement("div");
   shoppingCartData.classList.add("shopping_cart_data");
 
@@ -140,10 +206,15 @@ function createShoppingCart() {
   cards.classList.add("cards");
   ticketsSection.appendChild(cards);
 
-  shopping_cart_arr.forEach((data) => {
-    const ticketCard = makeTicketCard();
-    cards.appendChild(ticketCard);
+  const cart_table = document.createElement("table");
+  cart_table.classList.add("cart_table");
+
+  data.forEach((item) => {
+    const ticketCard = makeTicketCard(item);
+    cart_table.appendChild(ticketCard);
   });
+
+  cards.appendChild(cart_table);
 
   // Promo section
   const promoSection = document.createElement("div");
@@ -210,9 +281,11 @@ function createShoppingCart() {
 
   orderSummary.appendChild(summery_data);
 
-  shopping_cart_arr.forEach((data) => {
-    const summery_card = makeSummaryCard();
+  let total = 0;
+  data.forEach((item) => {
+    const summery_card = makeSummaryCard(item);
     summery_cards.appendChild(summery_card);
+    total += item.price * item.count;
   });
 
   const summary_total = document.createElement("div");
@@ -222,8 +295,8 @@ function createShoppingCart() {
   <h3 class="ticket_price ticket_text summery_text_total">
     Total
   </h3>
-  <h3 class="ticket_price ticket_text summery_text_amount">
-    120 <span class="ticket_currency ticket_text">eur</span>
+  <h3 id="total_amt" class="ticket_price ticket_text summery_text_amount">
+    ${total} <span class="ticket_currency ticket_text">eur</span>
   </h3>
   `;
 
@@ -236,6 +309,12 @@ function createShoppingCart() {
   summery_data.appendChild(summary_button);
 
   return shoppingCartData;
+}
+
+function getTotal() {
+  let total = 0;
+  cartData.forEach((item) => (total += item.count * item.price));
+  return total;
 }
 
 // pagination

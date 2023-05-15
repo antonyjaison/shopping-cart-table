@@ -1,0 +1,23 @@
+[
+  {
+    "id": "ticket_1",
+    "name": "All Access Ticket",
+    "price": 120,
+    "currency": "eur",
+    "count": 2
+  },
+  {
+    "id": "ticket_2",
+    "name": "VIP Pass",
+    "price": 150,
+    "currency": "usd",
+    "count": 1
+  },
+  {
+    "id": "ticket_3",
+    "name": "Student Ticket",
+    "price": 50,
+    "currency": "gbp",
+    "count": 4
+  }
+]
