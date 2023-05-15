@@ -9,6 +9,11 @@ window.addEventListener("load", () => openShoppingcartTab());
 
 var cartData = [];
 
+
+
+var currentPage = 1;
+var recordsPerPage = 5;
+
 const openShoppingcartTab = async () => {
   const response = await fetch("./assets/cart.json");
   const json = await response.json();
@@ -72,18 +77,18 @@ const makeSummaryCard = (details) => {
   return ticketCard;
 };
 
-const createTableColoumn = () => {
-  const tableColoumn = document.createElement("tr");
-  tableColoumn.innerHTML = `
-    <td>2023-05-01</td>
-    <td>2</td>
-    <td>All Access Ticket for Startups (less than $20M ARR)</td>
-    <td>$250</td>
-    <td>0</td>
-    <td>20</td>
-    <td>$250</td>
+const createTableColumn = (data) => {
+  const tableColumn = document.createElement("tr");
+  tableColumn.innerHTML = `
+    <td>${data.date}</td>
+    <td>${data.qty}</td>
+    <td>${data.name}</td>
+    <td>\$${data.price}</td>
+    <td>${data.discount}</td>
+    <td>${data.tax}</td>
+    <td>\$${data.total}</td>
   `;
-  return tableColoumn;
+  return tableColumn;
 };
 
 function subCounter(id) {
@@ -104,8 +109,7 @@ function subCounter(id) {
 
   summaryPrice.innerHTML = `
   ${details.count * details.price}
-    <span id="summary_currn_${
-      details.id
+    <span id="summary_currn_${details.id
     }" class="ticket_currency ticket_text">eur</span>
   `;
 
@@ -130,8 +134,7 @@ function addCounter(id) {
 
   summaryPrice.innerHTML = `
   ${details.count * details.price}
-    <span id="summary_currn_${
-      details.id
+    <span id="summary_currn_${details.id
     }" class="ticket_currency ticket_text">eur</span>
   `;
 
@@ -140,7 +143,9 @@ function addCounter(id) {
   `;
 }
 
-function createTable() {
+async function createTable() {
+  const res = await fetch("/assets/transaction.json");
+  const transactions = await res.json();
   const table = document.createElement("table");
   table.classList.add("table");
 
@@ -158,40 +163,12 @@ function createTable() {
   </thead>
   `;
 
-  const tbody = document.createElement("tbody");
-  tbody.classList.add("tbody");
 
-  shopping_cart_arr.forEach((data) => {
-    const tr = createTableColoumn();
-    tbody.appendChild(tr);
-  });
 
-  const pagination = document.createElement("tr");
-  pagination.innerHTML = `
-  <td class="table_select_option" colspan="2">
-    Showing 1-5 of 15
-    <span>
-      <select class="select_section" name="" id="">
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="20">20</option>
-      </select>
-    </span>
-  </td>
-  <td colspan="5">
-    <div id="pagination-container">
-      <ul id="pagination">
-        <li><a id="prev-page" href="#">&laquo;</a></li>
-        <li><a id="next-page" href="#">&raquo;</a></li>
-      </ul>
-    </div>
-  </td>
-  `;
-  tbody.appendChild(pagination);
-
-  table.appendChild(tbody);
 
   tab_body.appendChild(table);
+
+  displayData(transactions, table);
 }
 
 function createShoppingCart(data) {
@@ -318,84 +295,113 @@ function getTotal() {
 }
 
 // pagination
+// Number of records to show per page
 
-var currentPage = 1;
-var recordsPerPage = 5; // Number of records to show per page
-var data = []; // Your data array
-
-function displayData() {
+function displayData(data, table) {
   var startIndex = (currentPage - 1) * recordsPerPage;
   var endIndex = startIndex + recordsPerPage;
   var paginatedData = data.slice(startIndex, endIndex);
 
+  const tbody = document.createElement("tbody");
+  tbody.classList.add("tbody");
+
+  paginatedData.forEach((transaction) => {
+    const tr = createTableColumn(transaction);
+    tbody.appendChild(tr);
+  });
+  table.innerHTML = "";
+  table.appendChild(tbody)
+
+  const page = document.createElement("tr");
+  page.innerHTML = `
+  <td class="table_select_option" colspan="2">
+    Showing 1-5 of 15
+    <span>
+      <select class="select_section" name="" id="">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+      </select>
+    </span>
+  </td>
+  <td colspan="5">
+    <div id="pagination-container">
+      <ul id="pagination">
+      </ul>
+    </div>
+  </td>
+  `;
+  tbody.appendChild(page);
+
   // Display the paginated data on the page
-  var output = "";
-  for (var i = 0; i < paginatedData.length; i++) {
-    output += "<li>" + paginatedData[i] + "</li>";
-  }
-  document.getElementById("pagination").innerHTML = output;
+  document.getElementById("pagination").innerHTML = "";
+
+
 
   // Update the pagination links
   var totalRecords = data.length;
   var totalPages = Math.ceil(totalRecords / recordsPerPage);
-  var paginationOutput = "";
 
-  // Left arrow button
-  if (currentPage > 1) {
-    paginationOutput +=
-      '<li><a href="#" onclick="changePage(' +
-      (currentPage - 1) +
-      ')">&laquo;</a></li>';
+
+  console.log({
+    currentPage,
+    totalPages
+  })
+  const pagination = document.getElementById("pagination");
+
+
+  const leftButton = document.createElement("button");
+  leftButton.innerHTML = "&laquo;";
+  if (currentPage <= 1) {
+    leftButton.disabled = true;
   } else {
-    paginationOutput += '<li><span class="disabled">&laquo;</span></li>';
+    leftButton.disabled = false;
   }
 
-  // Page numbers
-  for (var j = 1; j <= totalPages; j++) {
-    if (j === currentPage) {
-      paginationOutput += '<li><a class="active" href="#">' + j + "</a></li>";
-    } else {
-      paginationOutput +=
-        '<li><a href="#" onclick="changePage(' + j + ')">' + j + "</a></li>";
+  leftButton.addEventListener("click", () => {
+    currentPage -= 1;
+    displayData(data, table);
+  })
+  pagination.appendChild(leftButton)
+
+  for (i = 1; i <= totalPages; i++) {
+    let btn = document.createElement("button");
+    btn.innerText = i
+    pagination.appendChild(btn);
+    btn.addEventListener("click", (e) => {
+      currentPage = Number(e.target.innerText);
+      displayData(data, table);
+    });
+    if (i === currentPage) {
+      btn.disabled = true;
     }
   }
 
-  // Right arrow button
-  if (currentPage < totalPages) {
-    paginationOutput +=
-      '<li><a href="#" onclick="changePage(' +
-      (currentPage + 1) +
-      ')">&raquo;</a></li>';
+
+  const rightButton = document.createElement("button");
+
+  rightButton.innerHTML = "&raquo;";
+
+  rightButton.addEventListener("click", () => {
+    currentPage += 1;
+    displayData(data, table);
+  })
+
+  if (currentPage >= totalPages) {
+    rightButton.disabled = true;
   } else {
-    paginationOutput += '<li><span class="disabled">&raquo;</span></li>';
+    rightButton.disabled = false;
   }
 
-  document.getElementById("pagination").innerHTML = paginationOutput;
+  pagination.appendChild(rightButton)
+
+
+
 }
 
-function changePage(page) {
-  currentPage = page;
-  displayData();
-}
+
+
+  // Page numbers
+
 
 // Example usage: Set your data and call displayData() initially
-data = [
-  "Record 1",
-  "Record 2",
-  "Record 3",
-  "Record 4",
-  "Record 5",
-  "Record 6",
-  "Record 7",
-  "Record 8",
-  "Record 9",
-  "Record 10",
-  "Record 11",
-  "Record 12",
-  "Record 13",
-  "Record 14",
-  "Record 15",
-  "Record 16",
-];
-
-displayData();
