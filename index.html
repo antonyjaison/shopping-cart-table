@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <link rel="stylesheet" href="./styles/tab-style.css" />
+
+    <!-- font awosome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css"
+      integrity="sha512-9YHSK59/rjvhtDcY/b+4rdnl0V4LPDWdkKceBl8ZLF5TB6745ml1AfluEU6dFWqwDw9lPvnauxFgpKvJqp7jiQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>shopping cart</h1>
+
+    <div class="tab_section">
+      <div class="tab">
+        <div class="tab_headings">
+          <h3 class="shopping_tab tab_heading" onclick="openShoppingcartTab()">
+            <span> <i class="fa-solid fa-bag-shopping"></i> </span> Shopping
+            cart
+          </h3>
+          <h3
+            class="transaction_tab tab_heading"
+            onclick="openTransactionTab()"
+          >
+            <span> <i class="fa-solid fa-money-check-dollar"></i> </span>
+            Transactions
+          </h3>
+        </div>
+
+        <div class="tab_body">
+          <div class="shopping_cart_data">
+            <div class="tickets_section">
+              <div class="cards">
+                <div class="ticket_card">
+                  <h3 class="ticket_name ticket_text">
+                    All Access Ticket for Startups (less than $20M ARR)
+                  </h3>
+                  <h3 class="ticket_price ticket_text">
+                    120 <span class="ticket_currency ticket_text">eur</span>
+                  </h3>
+
+                  <div class="counter_button">
+                    <i class="fa-solid fa-minus btn"></i>
+                    <h2 class="counter ticket_text ticket_currency">2</h2>
+                    <i class="fa-solid fa-plus btn"></i>
+                  </div>
+                </div>
+
+                <div class="ticket_card">
+                  <h3 class="ticket_name ticket_text">
+                    All Access Ticket for Startups (less than $20M ARR)
+                  </h3>
+                  <h3 class="ticket_price ticket_text">
+                    120 <span class="ticket_currency ticket_text">eur</span>
+                  </h3>
+
+                  <div class="counter_button">
+                    <i class="fa-solid fa-minus btn"></i>
+                    <h2 class="counter ticket_text ticket_currency">2</h2>
+                    <i class="fa-solid fa-plus btn"></i>
+                  </div>
+                </div>
+
+                <div class="ticket_card">
+                  <h3 class="ticket_name ticket_text">
+                    All Access Ticket for Startups (less than $20M ARR)
+                  </h3>
+                  <h3 class="ticket_price ticket_text">
+                    120 <span class="ticket_currency ticket_text">eur</span>
+                  </h3>
+
+                  <div class="counter_button">
+                    <i class="fa-solid fa-minus btn"></i>
+                    <h2 class="counter ticket_text ticket_currency">2</h2>
+                    <i class="fa-solid fa-plus btn"></i>
+                  </div>
+                </div>
+
+                <div class="ticket_card">
+                  <h3 class="ticket_name ticket_text">
+                    All Access Ticket for Startups (less than $20M ARR)
+                  </h3>
+                  <h3 class="ticket_price ticket_text">
+                    120 <span class="ticket_currency ticket_text">eur</span>
+                  </h3>
+
+                  <div class="counter_button">
+                    <i class="fa-solid fa-minus btn"></i>
+                    <h2 class="counter ticket_text ticket_currency">2</h2>
+                    <i class="fa-solid fa-plus btn"></i>
+                  </div>
+                </div>
+                <div class="ticket_card">
+                  <h3 class="ticket_name ticket_text">
+                    All Access Ticket for Startups (less than $20M ARR)
+                  </h3>
+                  <h3 class="ticket_price ticket_text">
+                    120 <span class="ticket_currency ticket_text">eur</span>
+                  </h3>
+
+                  <div class="counter_button">
+                    <i class="fa-solid fa-minus btn"></i>
+                    <h2 class="counter ticket_text ticket_currency">2</h2>
+                    <i class="fa-solid fa-plus btn"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="promo_section">
+                <div class="promo_input_container">
+                  <div class="promo_input">
+                    <input
+                      type="text"
+                      class="input_box"
+                      placeholder="Enter code"
+                    />
+                    <div class="promo_label">Promo code</div>
+                    <button class="promo_apply_button">Apply</button>
+                  </div>
+                  <p class="promo_error">
+                    <span class="promo_err_icon"
+                      ><i class="fa-sharp fa-light fa-circle-exclamation"></i
+                    ></span>
+                    Promocode not valid
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="order_summery">
+              <h2 class="summery_heading">Order summary</h2>
+
+              <div class="summery_data">
+                <div class="summery_cards">
+                  <div class="summery_card">
+                    <div class="summery_card_name">
+                      <p>2x</p>
+                      <p class="summery_card_data">
+                        All Access Ticket for Startups (less than $20M ARR)
+                      </p>
+                    </div>
+                    <h3 class="ticket_price ticket_text summery_text">
+                      120 <span class="ticket_currency ticket_text">eur</span>
+                    </h3>
+                  </div>
+
+                  <div class="summery_card">
+                    <div class="summery_card_name">
+                      <p>2x</p>
+                      <p class="summery_card_data">
+                        All Access Ticket for Startups (less than $20M ARR)
+                      </p>
+                    </div>
+                    <h3 class="ticket_price ticket_text summery_text">
+                      120 <span class="ticket_currency ticket_text">eur</span>
+                    </h3>
+                  </div>
+                  <div class="summery_card">
+                    <div class="summery_card_name">
+                      <p>2x</p>
+                      <p class="summery_card_data">
+                        All Access Ticket for Startups (less than $20M ARR)
+                      </p>
+                    </div>
+                    <h3 class="ticket_price ticket_text summery_text">
+                      120 <span class="ticket_currency ticket_text">eur</span>
+                    </h3>
+                  </div>
+                  <div class="summery_card">
+                    <div class="summery_card_name">
+                      <p>2x</p>
+                      <p class="summery_card_data">
+                        All Access Ticket for Startups (less than $20M ARR)
+                      </p>
+                    </div>
+                    <h3 class="ticket_price ticket_text summery_text">
+                      120 <span class="ticket_currency ticket_text">eur</span>
+                    </h3>
+                  </div>
+
+                  <div class="summery_card">
+                    <div class="summery_card_name">
+                      <p>2x</p>
+                      <p class="summery_card_data">
+                        All Access Ticket for Startups (less than $20M ARR)
+                      </p>
+                    </div>
+                    <h3 class="ticket_price ticket_text summery_text">
+                      120 <span class="ticket_currency ticket_text">eur</span>
+                    </h3>
+                  </div>
+                  <div class="summery_card">
+                    <div class="summery_card_name">
+                      <p>2x</p>
+                      <p class="summery_card_data">
+                        All Access Ticket for Startups (less than $20M ARR)
+                      </p>
+                    </div>
+                    <h3 class="ticket_price ticket_text summery_text">
+                      120 <span class="ticket_currency ticket_text">eur</span>
+                    </h3>
+                  </div>
+                  <div class="summery_card">
+                    <div class="summery_card_name">
+                      <p>2x</p>
+                      <p class="summery_card_data">
+                        All Access Ticket for Startups (less than $20M ARR)
+                      </p>
+                    </div>
+                    <h3 class="ticket_price ticket_text summery_text">
+                      120 <span class="ticket_currency ticket_text">eur</span>
+                    </h3>
+                  </div>
+                </div>
+
+                <button class="summery_button">Checkout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./scripts/script.js"></script>
+  </body>
+</html>

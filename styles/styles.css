@@ -1,0 +1,301 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap");
+
+:root {
+  --primary-color: #2f80ed;
+  --background-color: #e9e9e9;
+  --text-primary: #4f4f4f;
+}
+
+*,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+body {
+  width: 100%;
+  background-color: var(--background-color);
+}
+
+h1 {
+  margin-top: 50px;
+  font-family: "Bebas Neue";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 64px;
+  line-height: 77px;
+  text-align: center;
+}
+
+.tab_section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab {
+  margin-top: 50px;
+  width: 90%;
+  height: 60vh;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.tab_headings {
+  height: 58px;
+  display: flex;
+  align-items: center;
+  /* gap: 50px; */
+  border-bottom: 1px solid var(--background-color);
+}
+.tab_headings h3 {
+  margin-left: 50px;
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  cursor: pointer;
+  position: relative;
+}
+/* .tab_headings h3::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition: transform 0.2s ease-in-out;
+} */
+
+.active_tab {
+  color: var(--primary-color);
+}
+
+.shopping_cart_data {
+  width: 100%;
+  display: flex;
+}
+.tickets_section {
+  flex: 0.7;
+  position: relative;
+}
+.cards {
+  height: 280px;
+  overflow-y: scroll;
+}
+.order_summery {
+  flex: 0.3;
+  background-color: #f2f2f2;
+  height: calc(60vh - 59px);
+  border-bottom-right-radius: 15px;
+}
+
+.ticket_card {
+  width: 100%;
+  height: 70px;
+  border-bottom: 1px solid var(--background-color);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1;
+}
+
+.counter_button {
+  width: 113px;
+  height: 44px;
+  display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.ticket_text {
+  color: var(--text-primary);
+  font-family: "Manrope";
+  font-style: normal;
+  line-height: 150%;
+}
+.ticket_name {
+  font-weight: 600;
+  font-size: 12px;
+}
+.ticket_price {
+  font-weight: 800;
+  font-size: 14px;
+}
+.ticket_currency {
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.counter {
+  color: #1d1e26;
+}
+.counter_button_plus,
+.counter_button_minus {
+  font-size: 30px;
+}
+.btn {
+  cursor: pointer;
+}
+
+/*  */
+.promo_section {
+  position: absolute;
+  bottom: 10px;
+  left: 50px;
+  z-index: 2;
+  background-color: #fff;
+}
+.promo_input_container {
+  position: relative;
+  display: inline-block;
+}
+.input_box {
+  border: none;
+}
+.input_box:focus {
+  outline: none;
+}
+
+.promo_input {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 250px;
+  box-shadow: 0px 4px 14px rgba(118, 118, 136, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+}
+.input_box::placeholder {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 18px;
+  letter-spacing: -0.01em;
+  color: #bdbdbd;
+}
+
+.promo_label {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background-color: #fff;
+  padding: 0 3px;
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.01em;
+  color: #4f4f4f;
+}
+
+.promo_apply_button {
+  border: none;
+  background-color: #fff;
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.01em;
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.promo_error {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 24px;
+  color: #e53535;
+}
+.promo_err_icon {
+  background-color: #ffebeb;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+}
+
+/* summery section */
+.order_summery {
+  padding: 0 20px;
+}
+.summery_heading {
+  padding-top: 20px;
+  color: var(--text-primary);
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 28px;
+}
+.summery_data {
+  position: relative;
+  height: 300px;
+}
+.summery_cards {
+  height: 250px;
+  overflow-y: scroll;
+}
+.summery_card {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--background-color);
+}
+.summery_card_name {
+  flex: 0.6;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+}
+.summery_card_name {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 28px;
+  color: var(--text-primary);
+}
+.summery_card_data {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 150%;
+  color: var(--text-primary);
+}
+
+.summery_button {
+  position: absolute;
+  bottom: 10px;
+  right: 0px;
+  width: 156px;
+  height: 40px;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 44px;
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 28px;
+  color: #ffffff;
+  cursor: pointer;
+}
