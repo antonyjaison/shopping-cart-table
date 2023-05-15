@@ -331,6 +331,12 @@ function displayData(data, table) {
     </div>
   </td>
   `;
+
+  const select = page.querySelector("select");
+  select.addEventListener("change", (e) => {
+    recordsPerPage = Number(e.target.value);
+    displayData(data, table)
+  })
   tbody.appendChild(page);
 
   // Display the paginated data on the page
