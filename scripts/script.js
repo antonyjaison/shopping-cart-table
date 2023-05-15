@@ -299,7 +299,7 @@ function getTotal() {
 
 function displayData(data, table) {
   var startIndex = (currentPage - 1) * recordsPerPage;
-  var endIndex = startIndex + recordsPerPage;
+  var endIndex = Math.min(startIndex + recordsPerPage, data.length);
   var paginatedData = data.slice(startIndex, endIndex);
 
   const tbody = document.createElement("tbody");
@@ -315,12 +315,9 @@ function displayData(data, table) {
   const page = document.createElement("tr");
   page.innerHTML = `
   <td class="table_select_option" colspan="2">
-    Showing 1-5 of 15
+    Showing ${startIndex + 1}-${endIndex} of ${data.length}
     <span>
-      <select class="select_section" name="" id="">
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="20">20</option>
+      <select class="select_section" value="${recordsPerPage}" name="" id="">
       </select>
     </span>
   </td>
@@ -336,6 +333,19 @@ function displayData(data, table) {
   select.addEventListener("change", (e) => {
     recordsPerPage = Number(e.target.value);
     displayData(data, table)
+  })
+
+  let values = [5, 10, 20];
+
+  values.forEach(value => {
+    const option = document.createElement("option");
+    option.innerText = value
+    option.value = value
+    if (recordsPerPage === value) {
+      option.selected = true
+    }
+
+    select.appendChild(option)
   })
   tbody.appendChild(page);
 
