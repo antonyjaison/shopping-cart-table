@@ -19,7 +19,8 @@ const openShoppingcartTab = async () => {
   tab_body.innerHTML = "";
   transaction_tab.classList.remove("active_tab");
   shopping_tab.classList.add("active_tab");
-  tab_body.appendChild(createShoppingCart(cartData));
+  // tab_body.appendChild(createShoppingCart(cartData));
+  createTable()
 };
 
 const openTransactionTab = () => {
@@ -140,7 +141,8 @@ function addCounter(id) {
   `;
 }
 
-function createTable() {
+ async function createTable() {
+
   const table = document.createElement("table");
   table.classList.add("table");
 
