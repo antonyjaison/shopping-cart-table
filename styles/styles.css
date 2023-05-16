@@ -82,6 +82,9 @@ h1 {
   width: 100%;
   display: flex;
 }
+
+
+
 .tickets_section {
   flex: 0.7;
   position: relative;
