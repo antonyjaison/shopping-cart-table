@@ -1,8 +1,8 @@
 const shopping_tab = document.querySelector(".shopping_tab");
 const transaction_tab = document.querySelector(".transaction_tab");
 const tab_body = document.querySelector(".tab_body");
-const shoppingTabHeading = document.querySelector(".shopping_tab")
-const transactionTabHeading = document.querySelector(".transaction_tab")
+const shoppingTabHeading = document.querySelector(".shopping_tab");
+const transactionTabHeading = document.querySelector(".transaction_tab");
 
 const shopping_cart_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -14,9 +14,50 @@ let values = [5, 10, 20, 50, 100];
 var currentPage = 1;
 var recordsPerPage = 5;
 
+async function applyPromoCode() {
+  // const input = document.querySelector(".input_box");
+  // let value = input.value;
+
+  let promoCode = {
+    status: true,
+    details: {
+      code: "SUMMER50",
+      offer: 50,
+    },
+  };
+
+  if (promoCode.status) {
+    const summery_promo_price = document.getElementById(
+      `summary_price_promocode`
+    );
+    const summery_promo_count = document.getElementById(
+      `summary_count_promocode`
+    );
+    summery_promo_count.innerHTML = `
+    <p id="summary_count_promocode" class="summery_card_count">${1}x</p>
+    `;
+
+    summery_promo_price.innerHTML = `
+    <h3 id="summary_price_promocode" class="ticket_price ticket_text summery_text">
+    ${promoCode.details.offer} <span id="summary_currn_promocode" class="ticket_currency ticket_text">%</span>
+  </h3>
+    `;
+
+    const summary_total = document.querySelector(".summary_total")
+    summary_total.innerHTML =  `
+    <h3 class="ticket_price ticket_text summery_text_total">
+    Total
+  </h3>
+  <h3 id="total_amt" class="ticket_price ticket_text summery_text_amount">
+    ${(promoCode.details.offer / 100) * getTotal()} <span class="ticket_currency ticket_text">eur</span>
+  </h3>
+    `
+  }
+}
+
 const openShoppingcartTab = async () => {
-  shoppingTabHeading.classList.add("active")
-  transactionTabHeading.classList.remove("active")
+  shoppingTabHeading.classList.add("active");
+  transactionTabHeading.classList.remove("active");
   const response = await fetch("./assets/cart.json");
   const json = await response.json();
 
@@ -29,8 +70,8 @@ const openShoppingcartTab = async () => {
 };
 
 const openTransactionTab = () => {
-  shoppingTabHeading.classList.remove("active")
-  transactionTabHeading.classList.add("active")
+  shoppingTabHeading.classList.remove("active");
+  transactionTabHeading.classList.add("active");
 
   shopping_tab.classList.remove("active_tab");
   transaction_tab.classList.add("active_tab");
@@ -68,13 +109,21 @@ const makeSummaryCard = (details) => {
 
   ticketCard.innerHTML = `
   <div  class="summery_card_name">
-    <p id="summary_count_${details.id}" class="summery_card_count">${details.count}x</p>
+    <p id="summary_count_${details.id}" class="summery_card_count">${
+    details.count
+  }x</p>
     <p class="summery_card_data">
       ${details.name}
     </p>
   </div>
-  <h3 id="summary_price_${details.id}" class="ticket_price ticket_text summery_text">
-    ${details.price} <span id="summary_currn_${details.id}" class="ticket_currency ticket_text">eur</span>
+  <h3 id="summary_price_${
+    details.id
+  }" class="ticket_price ticket_text summery_text">
+    ${details.price} <span id="summary_currn_${
+    details.id
+  }" class="ticket_currency ticket_text">${
+    details.id === "promocode" ? "%" : "eur"
+  }</span>
   </h3>
     `;
 
@@ -201,6 +250,11 @@ function createShoppingCart(data) {
   inputBox.setAttribute("placeholder", "Enter code");
   promoInput.appendChild(inputBox);
 
+  inputBox.addEventListener("input", function () {
+    const inputValue = inputBox.value;
+    inputBox.value = inputValue.toUpperCase();
+  });
+
   const promoLabel = document.createElement("div");
   promoLabel.classList.add("promo_label");
   promoLabel.textContent = "Promo code";
@@ -209,6 +263,7 @@ function createShoppingCart(data) {
   const promoApplyButton = document.createElement("button");
   promoApplyButton.classList.add("promo_apply_button");
   promoApplyButton.textContent = "Apply";
+  promoApplyButton.onclick = applyPromoCode;
   promoInput.appendChild(promoApplyButton);
 
   const promoError = document.createElement("p");
@@ -257,12 +312,21 @@ function createShoppingCart(data) {
   const summary_total = document.createElement("div");
   summary_total.classList.add("summary_total");
 
+  const summary_ticket = makeSummaryCard({
+    id: "promocode",
+    price: 0,
+    name: "Promo code",
+    count: 0,
+  });
+
+  summery_cards.appendChild(summary_ticket);
+
   summary_total.innerHTML = `
   <h3 class="ticket_price ticket_text summery_text_total">
     Total
   </h3>
   <h3 id="total_amt" class="ticket_price ticket_text summery_text_amount">
-    ${total} <span class="ticket_currency ticket_text">eur</span>
+    ${getTotal()} <span class="ticket_currency ticket_text">eur</span>
   </h3>
   `;
 
