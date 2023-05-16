@@ -63,16 +63,25 @@ h1 {
   cursor: pointer;
   position: relative;
 }
-/* .tab_headings h3::after {
+
+.tab_headings h3::after {
   content: "";
   position: absolute;
   bottom: -10px;
   left: 0;
-  width: 100%;
+  width: 0%;
   height: 2px;
   background-color: var(--primary-color);
-  transition: transform 0.2s ease-in-out;
-} */
+  transition: width 0.3s ease-in-out;
+}
+
+.tab_heading{
+  transition: .3s;
+}
+
+.tab_headings h3.active::after {
+  width: 100%;
+}
 
 .active_tab {
   color: var(--primary-color);
@@ -81,9 +90,10 @@ h1 {
 .shopping_cart_data {
   width: 100%;
   display: flex;
+  animation-name: fade;
+  animation-duration: .3s;
+  animation-fill-mode: forwards;
 }
-
-
 
 .tickets_section {
   flex: 0.7;
@@ -339,6 +349,9 @@ h1 {
   width: 100%;
   border-collapse: collapse;
   position: relative;
+  animation-name: fade;
+  animation-duration: .3s;
+  animation-fill-mode: forwards;
 }
 .table_head {
   background-color: var(--primary-color);
@@ -433,4 +446,23 @@ h1 {
   width: 30%;
   display: flex;
   justify-content: center;
+}
+
+/* animations */
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes expandWidth {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
 }

@@ -1,6 +1,8 @@
 const shopping_tab = document.querySelector(".shopping_tab");
 const transaction_tab = document.querySelector(".transaction_tab");
 const tab_body = document.querySelector(".tab_body");
+const shoppingTabHeading = document.querySelector(".shopping_tab")
+const transactionTabHeading = document.querySelector(".transaction_tab")
 
 const shopping_cart_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -13,6 +15,8 @@ var currentPage = 1;
 var recordsPerPage = 5;
 
 const openShoppingcartTab = async () => {
+  shoppingTabHeading.classList.add("active")
+  transactionTabHeading.classList.remove("active")
   const response = await fetch("./assets/cart.json");
   const json = await response.json();
 
@@ -25,6 +29,9 @@ const openShoppingcartTab = async () => {
 };
 
 const openTransactionTab = () => {
+  shoppingTabHeading.classList.remove("active")
+  transactionTabHeading.classList.add("active")
+
   shopping_tab.classList.remove("active_tab");
   transaction_tab.classList.add("active_tab");
   tab_body.innerHTML = "";
@@ -147,20 +154,6 @@ async function createTable() {
   const transactions = await res.json();
   const table = document.createElement("table");
   table.classList.add("table");
-
-  // table.innerHTML = `
-  // <thead class="table_head">
-  //   <tr>
-  //     <th>Date</th>
-  //     <th>Qty</th>
-  //     <th>Product</th>
-  //     <th>Unit price</th>
-  //     <th>Discount</th>
-  //     <th>Tax</th>
-  //     <th>Total</th>
-  //   </tr>
-  // </thead>
-  // `;
 
   tab_body.appendChild(table);
 
