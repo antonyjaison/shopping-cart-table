@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="./styles/tab-style.css" />
     <link rel="stylesheet" href="./styles/pagination.css" />
 
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
     <!-- font awosome -->
     <link
       rel="stylesheet"
@@ -31,17 +36,33 @@
     <div class="tab_section">
       <div class="tab">
         <div class="tab_headings">
-          <h3 class="shopping_tab tab_heading" onclick="openShoppingcartTab()">
-            <span> <i class="fa-solid fa-bag-shopping"></i> </span> Shopping
-            cart
-          </h3>
-          <h3
-            class="transaction_tab tab_heading"
-            onclick="openTransactionTab()"
+          <div
+            style="
+              display: flex;
+              height: 58px;
+              align-items: center;
+              gap: 50px;
+              justify-content: center;
+              padding: 0 15px 0 20px;
+            "
           >
-            <span> <i class="fa-solid fa-money-check-dollar"></i> </span>
-            Transactions
-          </h3>
+            <h3
+              class="shopping_tab tab_heading active_tab"
+              onclick="openShoppingcartTab()"
+            >
+              <span><i style="font-size: 20px;transition: 0.2S;" class="material-icons">local_mall</i></span> Shopping
+              cart
+            </h3>
+            <h3
+              class="transaction_tab tab_heading"
+              onclick="openTransactionTab()"
+            >
+              <span> 
+                <i style="font-size: 20px;transition: 0.2S;" class="material-icons">receipt_long</i> 
+              </span>
+              Transactions
+            </h3>
+          </div>
         </div>
 
         <div class="tab_body">

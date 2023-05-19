@@ -39,7 +39,7 @@ h1 {
 
 .tab {
   width: 90%;
-  min-height: 60vh;
+  /* min-height: 60vh; */
   height: fit-content;
   background-color: #fff;
   border-radius: 15px;
@@ -49,22 +49,45 @@ h1 {
 .tab_headings {
   height: 58px;
   display: flex;
-  align-items: center;
-  /* gap: 50px; */
-  border-bottom: 1px solid var(--background-color);
-}
-.tab_headings h3 {
+  width: fit-content;
+  /* align-items: center; */
+  flex-direction: column;
+  
   margin-left: 50px;
+  /* border-bottom: 1px solid var(--background-color); */
+  position: relative;
+}
+.tab_headings::after {
+  content: "";
+  width: 50%;
+  height: 3px;
+  background-color: #2f80ed;
+  transition: width 0.3s;
+}
+.transaction_tab_active::after {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.tab_body {
+  border-top: 1px solid var(--background-color);
+}
+.tab_headings div h3 {
   font-family: "Manrope";
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 19px;
   cursor: pointer;
   position: relative;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 6PX;
 }
 
-.tab_headings h3::after {
+/* .tab_headings h3::after {
   content: "";
   position: absolute;
   bottom: -10px;
@@ -73,25 +96,28 @@ h1 {
   height: 2px;
   background-color: var(--primary-color);
   transition: width 0.3s ease-in-out;
-}
+} */
 
-.tab_heading{
-  transition: .3s;
+.tab_heading {
+  transition: 0.3s;
 }
 
 .tab_headings h3.active::after {
   width: 100%;
 }
 
+.not_active_tab{
+  color:#B5B8C5;
+}
 .active_tab {
-  color: var(--primary-color);
+  color:var(--primary-color);
 }
 
 .shopping_cart_data {
   width: 100%;
   display: flex;
   animation-name: fade;
-  animation-duration: .3s;
+  animation-duration: 0.3s;
   animation-fill-mode: forwards;
 }
 
@@ -121,8 +147,8 @@ h1 {
   height: 70px;
   border-bottom: 1px solid var(--background-color);
   display: flex;
-  justify-content:space-around;
-  align-items: center;
+  justify-content: space-around;
+  /* align-items: center; */
   z-index: 1;
 }
 
@@ -350,7 +376,7 @@ h1 {
   border-collapse: collapse;
   position: relative;
   animation-name: fade;
-  animation-duration: .3s;
+  animation-duration: 0.3s;
   animation-fill-mode: forwards;
 }
 .table_head {
@@ -422,27 +448,27 @@ h1 {
   margin-left: 5px;
 }
 
-
-.cart_table{
+.cart_table {
   width: 100%;
 }
-.cart_table tr{
+.cart_table tr {
   height: 60px;
   display: flex;
   align-items: center;
-  border-bottom:  1px solid var(--background-color);
+  border-bottom: 1px solid var(--background-color);
 }
-.cart_table tr td:nth-child(1){
+.cart_table tr td:nth-child(1) {
   width: 40%;
   display: flex;
-  justify-content: center;
+  margin-left: 8%;
+  /* justify-content: center; */
 }
-.cart_table tr td:nth-child(2){
+.cart_table tr td:nth-child(2) {
   width: 30%;
   display: flex;
   justify-content: center;
 }
-.cart_table tr td:nth-child(3){
+.cart_table tr td:nth-child(3) {
   width: 30%;
   display: flex;
   justify-content: center;

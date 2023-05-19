@@ -21,8 +21,8 @@
     border: none;
   }
   
-  #pagination button:disabled {
-    background-color: #f2f2f2;
-    color: #4f4f4f;
+  #pagination button:not(:disabled){
+    background-color: #fff;
+    color: #4F4F4F;
   }
   

@@ -3,6 +3,7 @@ const transaction_tab = document.querySelector(".transaction_tab");
 const tab_body = document.querySelector(".tab_body");
 const shoppingTabHeading = document.querySelector(".shopping_tab");
 const transactionTabHeading = document.querySelector(".transaction_tab");
+const tab_headings = document.querySelector(".tab_headings");
 
 const shopping_cart_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -13,10 +14,39 @@ var cartData = [];
 let values = [5, 10, 20, 50, 100];
 var currentPage = 1;
 var recordsPerPage = 5;
+var promocodes = [];
+var promoErrorMessage = "";
+
+const checkPromoCode = (code) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const promo = await fetch("./assets/promo.json");
+      const json = await promo.json();
+
+      const matchingPromo = json.find((data) => data.code === code);
+
+      if (matchingPromo) {
+        resolve({
+          status: true,
+          promo: matchingPromo,
+        });
+      } else {
+        resolve({
+          status: false,
+          promo: null,
+        });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 async function applyPromoCode() {
-  // const input = document.querySelector(".input_box");
-  // let value = input.value;
+  const input = document.querySelector(".input_box");
+  const promoError = document.querySelector(".promo_error");
+
+  let value = input.value;
 
   let promoCode = {
     status: true,
@@ -26,38 +56,54 @@ async function applyPromoCode() {
     },
   };
 
-  if (promoCode.status) {
-    const summery_promo_price = document.getElementById(
-      `summary_price_promocode`
-    );
-    const summery_promo_count = document.getElementById(
-      `summary_count_promocode`
-    );
-    summery_promo_count.innerHTML = `
-    <p id="summary_count_promocode" class="summery_card_count">${1}x</p>
-    `;
+  if (value) {
+    const res = await checkPromoCode(value);
+    if (res.status) {
+      input.value = "";
 
-    summery_promo_price.innerHTML = `
-    <h3 id="summary_price_promocode" class="ticket_price ticket_text summery_text">
-    ${promoCode.details.offer} <span id="summary_currn_promocode" class="ticket_currency ticket_text">%</span>
-  </h3>
-    `;
+      promocodes.push(res.promo);
 
-    const summary_total = document.querySelector(".summary_total")
-    summary_total.innerHTML =  `
-    <h3 class="ticket_price ticket_text summery_text_total">
-    Total
-  </h3>
-  <h3 id="total_amt" class="ticket_price ticket_text summery_text_amount">
-    ${(promoCode.details.offer / 100) * getTotal()} <span class="ticket_currency ticket_text">eur</span>
-  </h3>
-    `
+      const summery_promo_price = document.getElementById(
+        `summary_price_promocode`
+      );
+      const summery_promo_count = document.getElementById(
+        `summary_count_promocode`
+      );
+      summery_promo_count.innerHTML = `
+      <p id="summary_count_promocode" class="summery_card_count">${promocodes.length}x</p>
+      `;
+
+      summery_promo_price.innerHTML = `
+      <h3 id="summary_price_promocode" class="ticket_price ticket_text summery_text">
+        ${res.promo.offer} <span id="summary_currn_promocode" class="ticket_currency ticket_text">%</span>
+      </h3>
+      `;
+
+      const summary_total = document.querySelector(".summary_total");
+      summary_total.innerHTML = `
+      <h3 class="ticket_price ticket_text summery_text_total">
+      Total
+    </h3>
+    <h3 id="total_amt" class="ticket_price ticket_text summery_text_amount">
+      ${
+        (res.promo.offer / 100) * getTotal()
+      } <span class="ticket_currency ticket_text">eur</span>
+    </h3>
+      `;
+    } else {
+      promoError.style.display = "block";
+    }
+  } else {
   }
 }
 
 const openShoppingcartTab = async () => {
-  shoppingTabHeading.classList.add("active");
+  tab_headings.classList.remove("transaction_tab_active");
   transactionTabHeading.classList.remove("active");
+  transactionTabHeading.classList.add("not_active_tab");
+
+  tab_headings.classList.add("shopping_tab_active");
+  shoppingTabHeading.classList.add("active");
   const response = await fetch("./assets/cart.json");
   const json = await response.json();
 
@@ -67,11 +113,16 @@ const openShoppingcartTab = async () => {
   transaction_tab.classList.remove("active_tab");
   shopping_tab.classList.add("active_tab");
   tab_body.appendChild(createShoppingCart(cartData));
+
+  const promoError = document.querySelector(".promo_error");
+  promoError.style.display = "none";
 };
 
 const openTransactionTab = () => {
+  tab_headings.classList.add("transaction_tab_active");
   shoppingTabHeading.classList.remove("active");
   transactionTabHeading.classList.add("active");
+  shoppingTabHeading.classList.add("not_active_tab");
 
   shopping_tab.classList.remove("active_tab");
   transaction_tab.classList.add("active_tab");
@@ -266,6 +317,7 @@ function createShoppingCart(data) {
   promoApplyButton.onclick = applyPromoCode;
   promoInput.appendChild(promoApplyButton);
 
+  //
   const promoError = document.createElement("p");
   promoError.classList.add("promo_error");
   promoInputContainer.appendChild(promoError);
@@ -279,7 +331,9 @@ function createShoppingCart(data) {
   promoErrIcon.appendChild(faSharpIcon);
 
   const promoErrText = document.createTextNode("Promocode not valid");
+  promoErrText.id = "error_text";
   promoError.appendChild(promoErrText);
+  //
 
   // Order summary
   const orderSummary = document.createElement("div");
@@ -414,7 +468,6 @@ function displayData(data, table) {
 
   // Display the paginated data on the page
   document.getElementById("pagination").innerHTML = "";
-
   // Update the pagination links
   var totalRecords = data.length;
   var totalPages = Math.ceil(totalRecords / recordsPerPage);
@@ -427,8 +480,10 @@ function displayData(data, table) {
 
   const leftButton = document.createElement("button");
   leftButton.innerHTML = "&laquo;";
+
+
   if (currentPage <= 1) {
-    leftButton.disabled = true;
+    leftButton.disabled = false;
   } else {
     leftButton.disabled = false;
   }
@@ -461,15 +516,11 @@ function displayData(data, table) {
     displayData(data, table);
   });
 
-  if (currentPage >= totalPages) {
-    rightButton.disabled = true;
-  } else {
+  if (currentPage <= totalPages) {
     rightButton.disabled = false;
+  } else {
+    rightButton.disabled = true;
   }
 
   pagination.appendChild(rightButton);
 }
-
-// Page numbers
-
-// Example usage: Set your data and call displayData() initially
