@@ -85,9 +85,8 @@ async function applyPromoCode() {
       Total
     </h3>
     <h3 id="total_amt" class="ticket_price ticket_text summery_text_amount">
-      ${
-        (res.promo.offer / 100) * getTotal()
-      } <span class="ticket_currency ticket_text">eur</span>
+      ${(res.promo.offer / 100) * getTotal()
+        } <span class="ticket_currency ticket_text">eur</span>
     </h3>
       `;
     } else {
@@ -160,21 +159,17 @@ const makeSummaryCard = (details) => {
 
   ticketCard.innerHTML = `
   <div  class="summery_card_name">
-    <p id="summary_count_${details.id}" class="summery_card_count">${
-    details.count
-  }x</p>
+    <p id="summary_count_${details.id}" class="summery_card_count">${details.count
+    }x</p>
     <p class="summery_card_data">
       ${details.name}
     </p>
   </div>
-  <h3 id="summary_price_${
-    details.id
-  }" class="ticket_price ticket_text summery_text">
-    ${details.price} <span id="summary_currn_${
-    details.id
-  }" class="ticket_currency ticket_text">${
-    details.id === "promocode" ? "%" : "eur"
-  }</span>
+  <h3 id="summary_price_${details.id
+    }" class="ticket_price ticket_text summery_text">
+    ${details.price} <span id="summary_currn_${details.id
+    }" class="ticket_currency ticket_text">${details.id === "promocode" ? "%" : "eur"
+    }</span>
   </h3>
     `;
 
@@ -213,8 +208,7 @@ function subCounter(id) {
 
   summaryPrice.innerHTML = `
   ${details.count * details.price}
-    <span id="summary_currn_${
-      details.id
+    <span id="summary_currn_${details.id
     }" class="ticket_currency ticket_text">eur</span>
   `;
 
@@ -239,8 +233,7 @@ function addCounter(id) {
 
   summaryPrice.innerHTML = `
   ${details.count * details.price}
-    <span id="summary_currn_${
-      details.id
+    <span id="summary_currn_${details.id
     }" class="ticket_currency ticket_text">eur</span>
   `;
 
@@ -404,11 +397,13 @@ function getTotal() {
 // pagination
 // Number of records to show per page
 
+let tableFooter = null;
+
 function displayData(data, table) {
   var startIndex = (currentPage - 1) * recordsPerPage;
   var endIndex = Math.min(startIndex + recordsPerPage, data.length);
   var paginatedData = data.slice(startIndex, endIndex);
-
+  const tabBody = document.querySelector(".tab_body");
   const tbody = document.createElement("tbody");
   tbody.classList.add("tbody");
 
@@ -431,21 +426,22 @@ function displayData(data, table) {
   `;
   table.appendChild(tbody);
 
-  const page = document.createElement("tr");
+  const page = document.createElement("div");
+  page.classList.add("tab_body_footer");
   page.innerHTML = `
-  <td class="table_select_option" colspan="2">
+  <div class="table_select_option" colspan="2">
     Showing ${startIndex + 1}-${endIndex} of ${data.length}
     <span>
       <select class="select_section" value="${recordsPerPage}" name="" id="">
       </select>
     </span>
-  </td>
-  <td colspan="5">
+  </div>
+  <div colspan="5">
     <div id="pagination-container">
       <ul id="pagination">
       </ul>
     </div>
-  </td>
+  </div>
   `;
 
   const select = page.querySelector("select");
@@ -464,7 +460,17 @@ function displayData(data, table) {
 
     select.appendChild(option);
   });
-  tbody.appendChild(page);
+
+  // Check if tableFooter exists and if it exists remove from DOM
+  if (tableFooter) {
+    tableFooter.remove()
+  }
+
+
+  // assign tableFooter as page for purpose of removing in rerender
+  tableFooter = page;
+
+  tabBody.appendChild(page);
 
   // Display the paginated data on the page
   document.getElementById("pagination").innerHTML = "";
@@ -483,7 +489,7 @@ function displayData(data, table) {
 
 
   if (currentPage <= 1) {
-    leftButton.disabled = false;
+    leftButton.disabled = true;
   } else {
     leftButton.disabled = false;
   }
@@ -503,6 +509,7 @@ function displayData(data, table) {
       displayData(data, table);
     });
     if (i === currentPage) {
+      btn.classList.add("active")
       btn.disabled = true;
     }
   }
@@ -516,10 +523,15 @@ function displayData(data, table) {
     displayData(data, table);
   });
 
-  if (currentPage <= totalPages) {
-    rightButton.disabled = false;
-  } else {
+  console.log({
+    currentPage,
+    totalPages
+  })
+
+  if (currentPage >= totalPages) {
     rightButton.disabled = true;
+  } else {
+    rightButton.disabled = false;
   }
 
   pagination.appendChild(rightButton);

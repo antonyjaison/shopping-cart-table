@@ -73,6 +73,13 @@ h1 {
 .tab_body {
   border-top: 1px solid var(--background-color);
 }
+
+.tab_body_footer{
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 5rem;
+  padding-right: 2.5rem;
+}
 .tab_headings div h3 {
   font-family: "Manrope";
   font-style: normal;
@@ -195,8 +202,8 @@ h1 {
 /*  */
 .promo_section {
   position: absolute;
-  bottom: 10px;
-  left: 50px;
+  bottom: 12%;
+  left: 6%;
   z-index: 2;
   background-color: #fff;
 }
