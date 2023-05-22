@@ -119,7 +119,7 @@ h1 {
 
 .tickets_section {
   flex: 0.7;
-  position: relative;
+  /* position: relative; */
 }
 .cards {
   width: 100%;
@@ -190,10 +190,9 @@ h1 {
 
 /*  */
 .promo_section {
-  position: absolute;
-  bottom: 12%;
-  left: 6%;
-  z-index: 2;
+  /* position: absolute; */
+  margin-left: 3rem;
+  margin-top: 2.5rem;
   background-color: #fff;
 }
 .promo_input_container {
@@ -465,9 +464,8 @@ h1 {
 
 @media (max-width: 600px){
   .promo_section{
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 9%;
+    margin: 1.5rem auto;
+    width: fit-content;
 
   }
 
