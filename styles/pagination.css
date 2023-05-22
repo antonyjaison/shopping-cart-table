@@ -15,15 +15,27 @@
   
   #pagination button {
     padding: 5px 10px;
-    background-color: #2F80ED;
-    color: #fff;
-    border-radius: 50%;
-    border: none;
-  }
-  
-  #pagination button:not(:disabled){
     background-color: #fff;
     color: #4F4F4F;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #pagination button.active{
+    background-color: #2f80ed;
+    color:white;
+  }
+
+  #pagination button.active:disabled{
+    background-color: #2f80ed;
+    color:white;
+  }
+
+  #pagination button:disabled{
+    background-color: white;
+    color: #cfcfcf;
+    cursor: default;
   }
 
   
