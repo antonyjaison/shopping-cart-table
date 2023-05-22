@@ -130,25 +130,24 @@ const openTransactionTab = () => {
 };
 
 const makeTicketCard = (details) => {
-  const card = document.createElement("tr");
+  const card = document.createElement("li");
   card.innerHTML = `
-  <td>
+  <div>
     <h3 class="ticket_name ticket_text">
       ${details.name}
     </h3>
-  </td>
-  <td>
+  </div>
+  <div class="ticket_details">
     <h3 class="ticket_price ticket_text">
       ${details.price} <span class="ticket_currency ticket_text">eur</span>
     </h3>
-  </td>
-  <td>
+  
     <div class="counter_button">
       <i onclick="subCounter('${details.id}')" class="fa-solid fa-minus btn"></i>
       <h2 class="counter ticket_text ticket_currency" id="count_${details.id}">${details.count}</h2>
       <i onclick="addCounter('${details.id}')" class="fa-solid fa-plus btn"></i>
     </div>
-  </td>
+  </div>
     `;
   return card;
 };
@@ -265,7 +264,7 @@ function createShoppingCart(data) {
   cards.classList.add("cards");
   ticketsSection.appendChild(cards);
 
-  const cart_table = document.createElement("table");
+  const cart_table = document.createElement("ul");
   cart_table.classList.add("cart_table");
 
   data.forEach((item) => {
@@ -383,7 +382,7 @@ function createShoppingCart(data) {
   summary_button.innerText = "Checkout";
   summary_button.classList.add("summery_button");
 
-  summery_data.appendChild(summary_button);
+  orderSummary.appendChild(summary_button);
 
   return shoppingCartData;
 }
