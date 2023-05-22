@@ -195,7 +195,7 @@ h1 {
 /*  */
 .promo_section {
   position: absolute;
-  bottom: 10px;
+  bottom: 25px;
   left: 50px;
   z-index: 2;
   background-color: #fff;
