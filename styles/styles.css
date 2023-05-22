@@ -46,32 +46,22 @@ h1 {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.tab_headings {
-  height: 58px;
-  display: flex;
-  width: fit-content;
-  /* align-items: center; */
-  flex-direction: column;
-  
-  margin-left: 50px;
-  /* border-bottom: 1px solid var(--background-color); */
-  position: relative;
-}
-.tab_headings::after {
-  content: "";
-  width: 50%;
-  height: 3px;
-  background-color: #2f80ed;
-  transition: width 0.3s;
-}
-.transaction_tab_active::after {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
 
 .tab_body {
   border-top: 1px solid var(--background-color);
+}
+
+.tab_body_footer{
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 5rem;
+  padding-right: 2.5rem;
+}
+
+@media (max-width: 600px){
+  .tab_body_footer{
+    padding: 1rem 1rem;
+  }
 }
 .tab_headings div h3 {
   font-family: "Manrope";
@@ -121,13 +111,19 @@ h1 {
   animation-fill-mode: forwards;
 }
 
+@media (max-width: 600px){
+  .shopping_cart_data {
+    flex-direction: column;
+  }
+}
+
 .tickets_section {
   flex: 0.7;
-  position: relative;
+  /* position: relative; */
 }
 .cards {
   width: 100%;
-  height: 280px;
+  /* height: 280px; */
   /* display: flex; */
   /* justify-content: center; */
   overflow-y: scroll;
@@ -138,7 +134,7 @@ h1 {
 .order_summery {
   flex: 0.3;
   background-color: #f2f2f2;
-  height: calc(60vh - 59px);
+  /* height: calc(60vh - 59px); */
   border-bottom-right-radius: 15px;
 }
 
@@ -194,10 +190,9 @@ h1 {
 
 /*  */
 .promo_section {
-  position: absolute;
-  bottom: 10px;
-  left: 50px;
-  z-index: 2;
+  /* position: absolute; */
+  margin-left: 3rem;
+  margin-top: 2.5rem;
   background-color: #fff;
 }
 .promo_input_container {
@@ -281,6 +276,7 @@ h1 {
 .order_summery {
   padding: 0 20px;
   position: relative;
+  overflow: auto;
 }
 .summery_heading {
   padding-top: 20px;
@@ -291,13 +287,11 @@ h1 {
   font-size: 14px;
   line-height: 28px;
 }
-.summery_data {
-  height: 300px;
+/* .summery_data {
+ height: 300px; 
 }
 .summery_cards {
-  height: 250px;
-  overflow-y: scroll;
-}
+} */
 .summery_cards::-webkit-scrollbar {
   display: none;
 }
@@ -353,10 +347,12 @@ h1 {
   color: #219653;
 }
 .summery_button {
-  position: absolute;
+  /* position: absolute;
   bottom: 30px;
-  right: 20px;
-  width: 156px;
+  right: 20px;  */
+  float: inline-end;
+  margin: 1rem 0;
+  width: 156px; 
   height: 40px;
   background-color: var(--primary-color);
   border: none;
@@ -449,19 +445,41 @@ h1 {
 }
 
 .cart_table {
-  width: 100%;
+  padding: 0;
 }
-.cart_table tr {
+
+.cart_table  .ticket_details{
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+.cart_table li {
   height: 60px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid var(--background-color);
+  padding: 0 3rem;
 }
-.cart_table tr td:nth-child(1) {
+
+@media (max-width: 600px){
+  .promo_section{
+    margin: 1.5rem auto;
+    width: fit-content;
+
+  }
+
+.cart_table  .ticket_details{
+  gap: 0.5rem;
+}
+  .cart_table li {
+    padding: 0 1rem;
+  }
+}
+/* .cart_table tr td:nth-child(1) {
   width: 40%;
   display: flex;
   margin-left: 8%;
-  /* justify-content: center; */
 }
 .cart_table tr td:nth-child(2) {
   width: 30%;
@@ -472,7 +490,7 @@ h1 {
   width: 30%;
   display: flex;
   justify-content: center;
-}
+} */
 
 /* animations */
 @keyframes fade {
